@@ -65,3 +65,158 @@ ReactDOM.render(
     document.getElementById('root')
 );
 ```
+
+
+### Props
+```javascript
+ReactDOM.render(<div id="mydiv"></div>, // Lower case
+    document.getElementById('root')
+);
+```
+
+```javascript
+function Sum(props) {
+    return (
+        <h1>
+            {props.a} + {props.b} 
+            = {props.a + props.b}
+        </h1>
+    );
+}
+
+ReactDOM.render(<Sum a={4} b={2} />, // Capitalised first letter
+    document.getElementById('root')
+);
+```
+
+> All React components must act like pure function with respect to their props
+
+From: **React documentation**
+
+### Class Component in ES6
+
+```javascript
+class Sum extends React.Component {
+    render() {
+        return <h1>
+            {props.a} + {props.b} 
+            = {props.a + props.b}
+        </h1>;
+    }
+}
+
+ReactDOM.render(<Sum a={4} b={2} />, // Capitalised first letter
+    document.getElementById('root')
+);
+```
+
+As much as possible, use function components instead of class components. This is because they are simpler and encourange better design.
+
+### Component Lifecyle
+
+Mounting
+`constructor` > `componentWillMount` > `render` > `componentDidMount`
+
+Updating
+`componentWillReceiveProps` > `shouldComponentUpdate` > `compentWillUpdate` > `render` > `compentDidUpdate`
+
+Check React documentation for the complete list.
+
+### State
+* Alternative component data container.
+* State is local, mutable data
+* More complex (avoid using state as much as possible - always avoid it!)
+
+### Prop Validation
+
+```javascript
+import PropTypes from 'prop-types';
+
+function Sum(props) {
+    return (
+        <h1>
+            {props.a} + {props.b} 
+            = {props.a + props.b}
+        </h1>
+    );
+}
+Sum.propTypes = {
+    a: PropTypes.number.isRequired,
+    b: PropTypes.number.isRequired,
+};
+
+ReactDOM.render(<Sum a={'a'} b={2} />,
+    document.getElementById('root')
+);
+```
+
+Note you need to install `$ npm install prop-types`.
+
+This will show a `Warning`. This is useful but at the same time it also provides some kind of documentation within the code.
+
+You can use TypeScript and Flow - both are superior than prop-types.
+
+## Testing Components
+* React components should not contain any application logic. 
+* Function components are easily testable
+
+Example:
+```javascript
+describe('When setting up testing', () => {
+  it('should fail', () => {
+    expect(1 + 1).toBe(3);
+  });
+});
+```
+Run with `$ npm run test`
+
+```
+FAIL  src/Hello.test.js
+...
+```
+
+A better example:
+```javascript
+import React from 'react';
+
+
+function Hello(props) {
+  return <h1>Hello at {props.now}</h1>;
+}
+
+const moment = new Date(123123123124);
+
+describe('WHen setting up testing', () => {
+  let result;
+  beforeAll(() => {
+    result = Hello({now: moment.toISOString()});
+  });
+
+  it('returns a value', () => {
+    expect(result).not.toBeNull();
+  });
+
+  it('it is h1', () => {
+    expect(result.type).toBe('h1');
+  });
+
+  it('has children', () => {
+    expect(result.props.children).toBeTruthy();
+  });
+});
+```
+Then `$ npm run test` the out should be:
+```
+ PASS  src/Hello.test.js
+  WHen setting up testing    ✓ returns a value (2ms)    ✓ it is h1
+    ✓ has children
+
+Test Suites: 1 passed, 1 total
+Tests:       3 passed, 3 totalSnapshots:   0 total
+Time:        0.213s
+Ran all test suites related to changed files.
+```
+
+Next is testing a component with `ReactDOM`.
+
+To be continued...
