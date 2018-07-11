@@ -36,4 +36,32 @@ Props and State both represent the Model.
 
 For any state change, React updates the Virtual DOM. React is responsible for updating the real DOM in the most efficient way possible. It updates the Virtual DOM so that it doesn't have to render every change - that would perform very poorly.
 
-To be continued...
+## Components
+Each component corresponds to an element in the DOM. They can be nested by other components.
+
+### Defining a component
+
+```javascript
+function Hello(props) {
+    return <h1>Hello at {props.now}</h1>;
+}
+```
+That is JSX. That is why React needs some kind of compilation. Because we need to compile JSX into Javascript.
+
+
+### Rendering a Component
+```javascript
+import ReactDOM from 'react-dom';
+import React from 'react';
+
+function Hello(props) {
+    return <h1>Hello at {props.now}</h1>;
+}
+
+// The render part.
+// First param is Hello component
+ReactDOM.render(
+    <Hello now={new Date().toISOString()} />, 
+    document.getElementById('root')
+);
+```
