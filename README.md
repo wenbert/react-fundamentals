@@ -286,3 +286,65 @@ describe('Author Quiz', () => {
   * and `State` - these contain local mutable data. Avoid using state as much as possible.
 * `Props` can be validated by: `PropTypes` and `TypeScript` / `Flow`
 
+## JSX
+
+* Allows us to include XML-like syntax in Javascript.
+* Each element is transformed into a Javascript function call.
+* Converted by Babel into regular Javascript
+
+React element in JSX:
+```jsx
+<Sum a={4} b={3} />
+```
+
+Equivalent React element in Javascript:
+```javascript
+React.createElement(
+    Sum,
+    {a:4, b:3}, // props
+    null
+)
+```
+
+React element in JSX with children:
+```jsx
+<h1>
+    <Sum a={4} b={3} />
+</h1>
+```
+
+Equivalent React element in Javascript with children:
+```javascript
+React.createElement(
+    'h1',
+    null, // no props
+    React.createElement( // 3rd param is a child
+        Sum,
+        {a:4, b:3}, // props
+        null
+    )
+)
+```
+
+### Props in JSX
+
+```jsx
+<Hello now={new Date().toISOString()} />
+```
+This is a JSX expression. `Hello` is the React component name. `now` is the JSX attribute that will populate the react component. The value assigned to the `now` attribute is a JSX attribute expression. It is delimited by curly braces and not quotes. It can be any valid Javascript expression.
+
+```jsx
+<Hello now='now is the time' />
+```
+This is also valid.
+
+### Spread Attributes in JSX
+```jsx
+const props = {a: 4, b: 3};
+const element = <Sum {...props} />;
+```
+This is ES6.
+
+### Events 
+
+To be continued...
