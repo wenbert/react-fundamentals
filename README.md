@@ -157,7 +157,7 @@ This will show a `Warning`. This is useful but at the same time it also provides
 You can use TypeScript and Flow - both are superior than prop-types.
 
 ## Testing Components
-* React components should not contain any application logic. 
+* React components should not contain any application logic
 * Function components are easily testable
 
 Example:
@@ -184,7 +184,7 @@ function Hello(props) {
   return <h1>Hello at {props.now}</h1>;
 }
 
-const moment = new Date(123123123124);
+const moment = new Date(1588946400000);
 
 describe('WHen setting up testing', () => {
   let result;
@@ -217,6 +217,72 @@ Time:        0.213s
 Ran all test suites related to changed files.
 ```
 
+#### Testing ReactDOM
 Next is testing a component with `ReactDOM`.
 
-To be continued...
+You add this to the `Hello.test.js`
+
+```javascript
+import ReactDOM from 'react-dom';
+// ...
+describe('When testing with ReactDOM', () => {
+  it('renders without crashing', () => {
+    const div = document.createElement('div');
+    ReactDOM.render(<Hello now={moment.toISOString()} />, div);
+  });
+});
+```
+
+To test more advanced DOM elements, we can use `enzyme`. Install it with:
+```
+$ npm install --save-dev enzyme enzyme-adapter-react-16
+```
+
+So add these in `Hello.test.js`.
+
+```javascript
+import Enzyme, { shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+// ...
+
+Enzyme.configure({ adapter: new Adapter() });
+
+describe('WHen testing with Enzyme', () => {
+  it('renders a h1', () => {
+    const wrapper = shallow(<Hello now={moment.toISOString()} />);
+    expect(wrapper.find('h1').length).toBe(1);
+  });
+  
+  it('contains Hello at 2020-05-08T14:00:00:000Z', () => {
+    const wrapper = shallow(<Hello now={moment.toISOString()} />);
+    expect(wrapper.contains(<h1>Hello at 2020-05-08T14:00:00.000Z</h1>)).toBe(true);
+  });
+});
+```
+
+Now that we know how to test React Components, let's add actual tests to out `AuthorQuiz.test.js` file.
+
+That file would start to look like this:
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import AuthorQuiz from './AuthorQuiz';
+
+
+describe('Author Quiz', () => {
+  it('renders without crashing', () => {
+    const div = document.createElement('div');
+    ReactDOM.render(<AuthorQuiz />, div);
+  });
+});
+```
+
+### Summary:
+* React applicaions are built from components
+* Function or class syntax. Prefer always the function syntax. They are simpler.
+* Components can render data from 2 sources:
+  * `Props` - these contain immutable data (cannot be modified after created) passed from components.
+  * and `State` - these contain local mutable data. Avoid using state as much as possible.
+* `Props` can be validated by: `PropTypes` and `TypeScript` / `Flow`
+
