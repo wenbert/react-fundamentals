@@ -347,4 +347,89 @@ This is ES6.
 
 ### Events 
 
-To be continued...
+Passing data out of a component - using events.
+
+```jsx
+function Clicker({ handleClick }) {
+    return <div>
+        <button onClick={(e) => {handleClick('A');}}>A</button>
+        <button onClick={(e) => {handleClick('B');}}>B</button>
+        <button onClick={(e) => {handleClick('C');}}>C</button>
+    </div>;
+}
+
+ReactDOM.render(<Clicker handleClick={(letter) => {console.log(`${letter} clicked`)} />);
+```
+
+### JSX Child Elements
+```jsx
+<Hello>
+    <First />
+    <Second />
+</Hello>
+```
+## The Author Quiz App
+Now let's start to build the non-interactive parts of the app.
+
+Open `AuthorQuiz.js`. It should look something like this:
+```javascript
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+import './bootstrap.min.css';
+
+function Hero() {
+  return (
+    <div className="row">
+      <div className="jumbotron col-10 offset-1">
+        <h1>Author Quiz</h1>
+        <p>Select the book written by the author shown</p>
+      </div>
+    </div>
+  );
+}
+
+function Turn() {
+  return (
+    <div>
+    </div>
+  );
+}
+
+function Continue() {
+  return (
+    <div>
+    </div>
+  );
+}
+
+function Footer() {
+  return (
+    <div id="footer" className="row">
+      <div className="col-12">
+        <p>All images are from Wikimedia Commons</p>
+      </div>
+    </div>
+  );
+}
+
+class AuthorQuiz extends Component {
+  render() {
+    return (
+      <div className="containter-fluid">
+        <Hero/>
+        <Turn/>
+        <Continue/>
+        <Footer/>
+      </div>
+    );
+  }
+}
+
+export default AuthorQuiz;
+```
+
+The `AuthorQuiz` class has a render function. It contains some JSX with 4 component. `Hero`, `Turn`, `Continue` and `Footer`. We need to define these React components as functions. 
+
+These React components will return some JSX.
+
