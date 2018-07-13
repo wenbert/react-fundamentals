@@ -433,3 +433,6 @@ The `AuthorQuiz` class has a render function. It contains some JSX with 4 compon
 
 These React components will return some JSX.
 
+See the `AuthorQuiz.js` file. Note that we change it to a function component instead of a class.
+
+Next, we'll talk about Events. To be continued...
